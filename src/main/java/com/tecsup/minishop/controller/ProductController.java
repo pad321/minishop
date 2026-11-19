@@ -1,5 +1,6 @@
 package com.tecsup.minishop.controller;
 
+import com.tecsup.minishop.dto.ProductRequest;
 import com.tecsup.minishop.model.Product;
 import com.tecsup.minishop.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(productService.save(product));
-    }
+        public ResponseEntity<Product> create(@RequestBody ProductRequest request) {
+            Product product = new Product();
+            product.setName(request.name());
+            product.setPrice(request.price());
+            product.setStock(request.stock());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(productService.save(product));
+        }
 
     @GetMapping
     public ResponseEntity<List<Product>> findAll() {
